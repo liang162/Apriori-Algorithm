@@ -68,7 +68,6 @@ for i in range(0, 11):
 # start
 # frequent single items
 minsup = (len(data) - 1) * float(support)
-mincon = (len(data) - 1) * float(confidence)
 
 # frequent itemsets
 while(True):
@@ -116,12 +115,17 @@ for i in range(2, 100):
         association_rule_table.append(Rn)
 
 # association rule
-print association_rule_table
-print association_rule_dict
-
-
-
-
-
-
-
+for items in association_rule_table:
+    association_rule_num = 0
+    for itemset in items:
+        for i in range(0, len(itemset)):
+            right_side = itemset[i]
+            left_side = []
+            for j in range(0, len(itemset)):
+                if(j != i):
+                    left_side.append(itemset[j])
+            count_left = association_rule_dict[tuple(left_side)]
+            count_support = association_rule_dict[tuple(itemset)]
+            if(float(count_support) / float(count_left) > float(confidence)):
+                association_rule_num = association_rule_num + 1
+    print "ASSOCIATION-RULES" + " " + str(len(itemset)) + " " + str(association_rule_num)
